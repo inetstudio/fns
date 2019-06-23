@@ -1,0 +1,34 @@
+{
+  "name": "inetstudio/fns",
+  "description": "Package for fns integration",
+  "homepage": "https://github.com/inetstudio/fns",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Konstantin Bukin",
+      "email": "bukin@inetstudio.ru"
+    }
+  ],
+  "require": {
+    "inetstudio/admin-panel": "1.8.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "InetStudio\\Fns\\": "package/src",
+      "InetStudio\\Fns\\Accounts\\": "entities/accounts/src",
+      "InetStudio\\Fns\\Receipts\\": "entities/receipts/src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "InetStudio\\Fns\\Providers\\BindingsServiceProvider",
+        "InetStudio\\Fns\\Providers\\ServiceProvider",
+        "InetStudio\\Fns\\Accounts\\Providers\\BindingsServiceProvider",
+        "InetStudio\\Fns\\Accounts\\Providers\\ServiceProvider",
+        "InetStudio\\Fns\\Receipts\\Providers\\BindingsServiceProvider",
+        "InetStudio\\Fns\\Receipts\\Providers\\ServiceProvider"
+      ]
+    }
+  }
+}
