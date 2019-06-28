@@ -47,7 +47,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
      */
     public function getActiveAccount(): ?AccountModelContract
     {
-        return $this->model::whereNull('blocked_at')->first();
+        return $this->model::inRandomOrder()->whereNull('blocked_at')->first();
     }
 
     /**
