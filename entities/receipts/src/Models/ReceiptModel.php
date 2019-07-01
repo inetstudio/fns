@@ -5,6 +5,7 @@ namespace InetStudio\Fns\Receipts\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
+use InetStudio\AddressesPackage\Points\Models\Traits\HasPoints;
 use InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract;
 use InetStudio\AdminPanel\Base\Models\Traits\Scopes\BuildQueryScopeTrait;
 
@@ -13,6 +14,7 @@ use InetStudio\AdminPanel\Base\Models\Traits\Scopes\BuildQueryScopeTrait;
  */
 class ReceiptModel extends Model implements ReceiptModelContract
 {
+    use HasPoints;
     use SoftDeletes;
     use HasJSONColumns;
     use BuildQueryScopeTrait;

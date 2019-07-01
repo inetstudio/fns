@@ -31,6 +31,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->commands(
             [
+                'InetStudio\Fns\Receipts\Console\Commands\AttachPointsToReceiptsCommand',
                 'InetStudio\Fns\Receipts\Console\Commands\SetupCommand',
             ]
         );

@@ -10,6 +10,7 @@
     }
   ],
   "require": {
+    "inetstudio/addresses": "1.8.*",
     "inetstudio/admin-panel": "1.8.*"
   },
   "autoload": {
