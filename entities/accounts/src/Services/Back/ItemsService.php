@@ -4,7 +4,6 @@ namespace InetStudio\Fns\Accounts\Services\Back;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use InetStudio\AdminPanel\Base\Services\BaseService;
 use InetStudio\Fns\Accounts\Contracts\Models\AccountModelContract;
 use InetStudio\Fns\Accounts\Contracts\Services\Back\ItemsServiceContract;

@@ -54,7 +54,6 @@ class AttachPointsToReceiptsCommand extends Command
 
             foreach ($ahunterResult['addresses'] as $address) {
                 if ($address['quality']['precision'] > 80) {
-
                     $hash = $address['codes']['fias_house'] ?? md5($address['pretty']);
 
                     break;
