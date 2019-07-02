@@ -74,8 +74,6 @@ class GenerateAccountsCommand extends Command
 
         $operations = $this->getAllOperations();
         */
-
-
     }
 
     protected function getVirtualPhoneNumber(): array
@@ -128,7 +126,6 @@ class GenerateAccountsCommand extends Command
 
     protected function processOperations()
     {
-
     }
 
     protected function getFakeEmail(string $name): string
@@ -163,7 +160,7 @@ class GenerateAccountsCommand extends Command
                 'otch' => 0,
                 'pol' => 0,
                 'count' => $count,
-            ]
+            ],
         ];
 
         try {
@@ -192,7 +189,7 @@ class GenerateAccountsCommand extends Command
         $dict = [
             'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'е', 'ё' => 'yo', 'ж' => 'zh', 'з' => 'z', 'и' => 'i', 'й' => 'j',
             'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f',
-            'х' => 'h', 'ч' => 'ch', 'ц' => 'ts', 'ш' => 'sh', 'щ' => 'shсh', 'у' => 'y', 'ь' => '','э' => 'je', 'ю' => 'yu', 'я' => 'ya',
+            'х' => 'h', 'ч' => 'ch', 'ц' => 'ts', 'ш' => 'sh', 'щ' => 'shсh', 'у' => 'y', 'ь' => '', 'э' => 'je', 'ю' => 'yu', 'я' => 'ya',
             'кв' => 'q', 'с' => 's', 'це' => 'ce', 'ру' => 'ru', 'ы' => 'yi',
         ];
 

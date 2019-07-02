@@ -53,14 +53,14 @@ class FnsService implements FnsServiceContract
             'body' => $body,
             'headers' => [
                 'Content-Type' => 'application/json',
-            ]
+            ],
         ];
 
         try {
             $response = $this->client->post($url, $requestParams);
             $responseCode = $response->getStatusCode();
 
-            return ($responseCode == 204);
+            return $responseCode == 204;
         } catch (ClientException $error) {
             return false;
         }
@@ -131,14 +131,14 @@ class FnsService implements FnsServiceContract
             'headers' => [
                 'device-id' => '',
                 'device-os' => '',
-            ]
+            ],
         ];
 
         try {
             $response = $this->client->get($url, $requestParams);
             $responseCode = $response->getStatusCode();
 
-            return ($responseCode == 204);
+            return $responseCode == 204;
         } catch (ClientException $error) {
             return false;
         }
@@ -176,7 +176,7 @@ class FnsService implements FnsServiceContract
             'headers' => [
                 'device-id' => '',
                 'device-os' => '',
-            ]
+            ],
         ];
 
         try {
