@@ -44,29 +44,33 @@ class AttachPointsToReceiptsCommand extends Command
                 continue;
             }
 
-            $address = $receipt['receipt']['document']['receipt']['retailPlaceAddress'] ?? '';
+            $receiptAddress = $receipt['receipt']['document']['receipt']['retailPlaceAddress'] ?? '';
 
-            if (! $address) {
+            if (! $receiptAddress) {
                 continue;
             }
 
-            $ahunterResult = $ahunterService->recognizeAddress($address);
+            $ahunterResult = $ahunterService->recognizeAddress($receiptAddress);
 
-            if (count($ahunterResult['addresses']) == 1 && $ahunterResult['addresses'][0]['quality']['precision'] == 100) {
+            foreach ($ahunterResult['addresses'] as $address) {
+                if ($address['quality']['precision'] > 80) {
 
-                $hash = $ahunterResult['addresses'][0]['codes']['fias_house'] ?? '';
+                    $hash = $address['codes']['fias_house'] ?? md5($address['pretty']);
 
-                if ($hash) {
-                    $point = $pointsService->getModel()->where('hash', '=', $hash)->first();
+                    break;
+                }
+            }
 
-                    if ($point) {
-                        $pointsService->attachToObject(
-                            [
-                                $point->id,
-                            ],
-                            $receipt
-                        );
-                    }
+            if ($hash) {
+                $point = $pointsService->getModel()->where('hash', '=', $hash)->first();
+
+                if ($point) {
+                    $pointsService->attachToObject(
+                        [
+                            $point->id,
+                        ],
+                        $receipt
+                    );
                 }
             }
 
