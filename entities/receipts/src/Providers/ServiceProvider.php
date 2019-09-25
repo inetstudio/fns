@@ -17,7 +17,6 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->registerConsoleCommands();
         $this->registerPublishes();
-        $this->registerViews();
     }
 
     /**
@@ -59,13 +58,5 @@ class ServiceProvider extends BaseServiceProvider
             ],
             'migrations'
         );
-    }
-
-    /**
-     * Регистрация представлений.
-     */
-    protected function registerViews(): void
-    {
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.fns.receipts');
     }
 }
