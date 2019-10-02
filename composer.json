@@ -10,8 +10,8 @@
     }
   ],
   "require": {
-    "inetstudio/addresses": "1.8.*",
-    "inetstudio/admin-panel": "1.8.*"
+    "inetstudio/addresses": "^6.0",
+    "inetstudio/admin-panel": "^6.0"
   },
   "autoload": {
     "psr-4": {
