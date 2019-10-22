@@ -21,8 +21,8 @@ class ShowTransformer extends TransformerAbstract implements ShowTransformerCont
      *
      * @throws Throwable
      */
-    public function transform(ReceiptModelContract $item): array
+    public function transform(?ReceiptModelContract $item): array
     {
-        return $item->toArray();
+        return ($item) ? $item->toArray() : [];
     }
 }
