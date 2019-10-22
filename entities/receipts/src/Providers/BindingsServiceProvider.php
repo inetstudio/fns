@@ -16,6 +16,7 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
     public $bindings = [
         'InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract' => 'InetStudio\Fns\Receipts\Models\ReceiptModel',
         'InetStudio\Fns\Receipts\Contracts\Services\Back\ItemsServiceContract' => 'InetStudio\Fns\Receipts\Services\Back\ItemsService',
+        'InetStudio\Fns\Receipts\Contracts\Transformers\Back\Resource\ShowTransformerContract' => 'InetStudio\Fns\Receipts\Transformers\Back\Resource\ShowTransformer',
     ];
 
     /**
