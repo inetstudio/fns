@@ -14,6 +14,7 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
      * @var array
      */
     public $bindings = [
+        'InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract' => 'InetStudio\Fns\Services\Back\BrandCashService',
         'InetStudio\Fns\Contracts\Services\Back\FnsServiceContract' => 'InetStudio\Fns\Services\Back\FnsService',
     ];
 

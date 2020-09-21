@@ -4,22 +4,14 @@ namespace InetStudio\Fns\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-/**
- * Class ServiceProvider.
- */
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Загрузка сервиса.
-     */
     public function boot(): void
     {
         $this->registerConsoleCommands();
+        $this->registerPublishes();
     }
 
-    /**
-     * Регистрация команд.
-     */
     protected function registerConsoleCommands(): void
     {
         if (! $this->app->runningInConsole()) {
@@ -31,5 +23,10 @@ class ServiceProvider extends BaseServiceProvider
                 'InetStudio\Fns\Console\Commands\SetupCommand',
             ]
         );
+    }
+
+    protected function registerPublishes(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../../config/services.php', 'services');
     }
 }
