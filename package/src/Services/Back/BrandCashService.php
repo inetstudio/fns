@@ -4,9 +4,10 @@ namespace InetStudio\Fns\Services\Back;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract;
 use InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract;
 
-class BrandCashService implements BrandCashServiceContract
+class BrandCashService implements BrandCashServiceContract, ReceiptsServiceContract
 {
     protected array $brandCashParams;
 

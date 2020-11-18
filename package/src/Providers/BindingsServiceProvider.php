@@ -7,14 +7,12 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class BindingsServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
-    public array $bindings = [
-        'InetStudio\Fns\Contracts\Managers\ReceiptsServiceManagerContract' => 'InetStudio\Fns\Managers\ReceiptsServiceManager',
-        'InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract' => 'InetStudio\Fns\Services\Back\BrandCashService',
-        'InetStudio\Fns\Contracts\Services\Back\FnsServiceContract' => 'InetStudio\Fns\Services\Back\FnsService',
-    ];
-
     public function register()
     {
+        $this->app->bind('InetStudio\Fns\Contracts\Managers\ReceiptsServiceManagerContract', 'InetStudio\Fns\Managers\ReceiptsServiceManager');
+        $this->app->bind('InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract', 'InetStudio\Fns\Services\Back\BrandCashService');
+        $this->app->bind('InetStudio\Fns\Contracts\Services\Back\FnsServiceContract', 'InetStudio\Fns\Services\Back\FnsService');
+
         $this->app->singleton('InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract', function ($app) {
             $driver = config('fns.driver');
 
@@ -24,6 +22,11 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
 
     public function provides()
     {
-        return array_keys($this->bindings);
+        return [
+            'InetStudio\Fns\Contracts\Managers\ReceiptsServiceManagerContract',
+            'InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract',
+            'InetStudio\Fns\Contracts\Services\Back\FnsServiceContract',
+            'InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract'
+        ];
     }
 }
