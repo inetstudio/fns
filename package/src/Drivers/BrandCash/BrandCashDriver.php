@@ -1,6 +1,6 @@
 <?php
 
-namespace InetStudio\Fns\Drivers;
+namespace InetStudio\Fns\Drivers\BrandCash;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;

@@ -1,6 +1,6 @@
 <?php
 
-namespace InetStudio\Fns\Drivers;
+namespace InetStudio\Fns\Drivers\Fns;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
