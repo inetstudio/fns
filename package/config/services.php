@@ -6,6 +6,7 @@ return [
         'url' => env('BRAND_CASH_URL'),
     ],
     'fns' => [
-        'api_key'  => env('FNS_API_KEY'),
+        'token'  => env('FNS_TOKEN'),
+        'url' => env('FNS_URL'),
     ],
 ];

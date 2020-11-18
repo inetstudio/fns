@@ -3,8 +3,8 @@
 namespace InetStudio\Fns\Managers;
 
 use Illuminate\Support\Manager;
-use InetStudio\Fns\Contracts\Services\Back\FnsServiceContract;
-use InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract;
+use InetStudio\Fns\Contracts\Drivers\FnsDriverContract;
+use InetStudio\Fns\Contracts\Drivers\BrandCashDriverContract;
 use InetStudio\Fns\Contracts\Managers\ReceiptsServiceManagerContract;
 
 class ReceiptsServiceManager extends Manager implements ReceiptsServiceManagerContract
@@ -14,14 +14,14 @@ class ReceiptsServiceManager extends Manager implements ReceiptsServiceManagerCo
         return $this->driver($driver);
     }
 
-    protected function createFnsDriver(): FnsServiceContract
+    protected function createFnsDriver(): FnsDriverContract
     {
-        return resolve('InetStudio\Fns\Contracts\Services\Back\FnsServiceContract');
+        return resolve('InetStudio\Fns\Contracts\Drivers\FnsDriverContract');
     }
 
-    protected function createBrandcashDriver(): BrandCashServiceContract
+    protected function createBrandcashDriver(): BrandCashDriverContract
     {
-        return resolve('InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract');
+        return resolve('InetStudio\Fns\Contracts\Drivers\BrandCashDriverContract');
     }
 
     public function getDefaultDriver()

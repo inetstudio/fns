@@ -1,16 +1,13 @@
 <?php
 
-namespace InetStudio\Fns\Services\Back;
+namespace InetStudio\Fns\Drivers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use InetStudio\Fns\Contracts\Drivers\FnsDriverContract;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use InetStudio\Fns\Contracts\Services\Back\FnsServiceContract;
 
-/**
- * Class FnsService.
- */
-class FnsService implements FnsServiceContract
+class FnsDriver implements FnsDriverContract
 {
     /**
      * @var Client
@@ -23,47 +20,6 @@ class FnsService implements FnsServiceContract
     public function __construct()
     {
         $this->client = new Client();
-    }
-
-    /**
-     * Регистрация в сервисе ФНС.
-     *
-     * @param  array  $params
-     *
-     * @return bool
-     */
-    public function signUp(array $params): bool
-    {
-        $url = 'https://proverkacheka.nalog.ru:9999/v1/mobile/users/signup';
-
-        $body = sprintf(
-            '
-            {
-                "email": "%s",
-                "name": "%s",
-                "phone": "%s"
-            }
-            ',
-            $params['email'],
-            $params['name'],
-            $params['phone']
-        );
-
-        $requestParams = [
-            'body' => $body,
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-        ];
-
-        try {
-            $response = $this->client->post($url, $requestParams);
-            $responseCode = $response->getStatusCode();
-
-            return $responseCode == 204;
-        } catch (ClientException $error) {
-            return false;
-        }
     }
 
     /**

@@ -1,13 +1,13 @@
 <?php
 
-namespace InetStudio\Fns\Services\Back;
+namespace InetStudio\Fns\Drivers;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use GuzzleHttp\Exception\ClientException;
-use InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract;
+use InetStudio\Fns\Contracts\Drivers\BrandCashDriverContract;
 
-class BrandCashService implements BrandCashServiceContract
+class BrandCashDriver implements BrandCashDriverContract
 {
     protected array $brandCashParams;
 

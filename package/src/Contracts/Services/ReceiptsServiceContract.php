@@ -1,6 +1,6 @@
 <?php
 
-namespace InetStudio\Fns\Contracts\Services\Back;
+namespace InetStudio\Fns\Contracts\Services;
 
 interface ReceiptsServiceContract
 {
