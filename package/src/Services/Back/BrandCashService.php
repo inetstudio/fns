@@ -3,11 +3,11 @@
 namespace InetStudio\Fns\Services\Back;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Arr;
 use GuzzleHttp\Exception\ClientException;
-use InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract;
 use InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract;
 
-class BrandCashService implements BrandCashServiceContract, ReceiptsServiceContract
+class BrandCashService implements BrandCashServiceContract
 {
     protected array $brandCashParams;
 
@@ -26,7 +26,7 @@ class BrandCashService implements BrandCashServiceContract, ReceiptsServiceContr
         $requestParams = $this->prepareParams($params);
 
         try {
-            $response = $this->client->get('https://api.brand.cash/v2/receipts/check', $requestParams);
+            $response = $this->client->get(trim($this->brandCashParams['url'], '/').'/receipts/check', $requestParams);
             $responseCode = $response->getStatusCode();
 
             return $responseCode == 204;
@@ -40,7 +40,7 @@ class BrandCashService implements BrandCashServiceContract, ReceiptsServiceContr
         $requestParams = $this->prepareParams($params);
 
         try {
-            $response = $this->client->get('https://api.brand.cash/v2/receipts/get', $requestParams);
+            $response = $this->client->get(trim($this->brandCashParams['url'], '/').'/receipts/get', $requestParams);
         } catch (ClientException $error) {
             return null;
         }
@@ -60,7 +60,7 @@ class BrandCashService implements BrandCashServiceContract, ReceiptsServiceContr
     protected function prepareParams(array $params): array
     {
         return [
-            'query' => array_merge($params, $this->brandCashParams),
+            'query' => array_merge($params, Arr::only($this->brandCashParams, 'api_key')),
         ];
     }
 }

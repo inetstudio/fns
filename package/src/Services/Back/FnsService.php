@@ -6,12 +6,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\Fns\Contracts\Services\Back\FnsServiceContract;
-use InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract;
 
 /**
  * Class FnsService.
  */
-class FnsService implements FnsServiceContract, ReceiptsServiceContract
+class FnsService implements FnsServiceContract
 {
     /**
      * @var Client
