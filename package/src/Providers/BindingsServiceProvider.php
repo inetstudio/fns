@@ -13,22 +13,17 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
         'InetStudio\Fns\Contracts\Services\Back\FnsServiceContract' => 'InetStudio\Fns\Services\Back\FnsService',
     ];
 
-    public array $singletons = [];
-
-    public function __construct($app)
+    public function register()
     {
-        parent::__construct($app);
+        $this->app->singleton('InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract', function ($app) {
+            $driver = config('fns.driver');
 
-        $driver = config('fns.driver');
-
-        $this->singletons['InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract'] = resolve('InetStudio\Fns\Contracts\Managers\ReceiptsServiceManagerContract', compact('app'))->with($driver);
+            return resolve('InetStudio\Fns\Managers\ReceiptsServiceManager', compact('app'))->with($driver);
+        });
     }
 
     public function provides()
     {
-        return array_merge(
-            array_keys($this->bindings),
-            array_keys($this->singletons)
-        );
+        return array_keys($this->bindings);
     }
 }

@@ -27,6 +27,10 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerPublishes(): void
     {
+        $this->publishes([
+            __DIR__.'/../../config/fns.php' => config_path('fns.php'),
+        ], 'config');
+
         $this->mergeConfigFrom(__DIR__.'/../../config/services.php', 'services');
     }
 }

@@ -18,6 +18,15 @@ class SetupCommand extends BaseSetupCommand
                 'description' => 'Fns receipts setup',
                 'command' => 'inetstudio:fns:receipts:setup',
             ],
+            [
+                'type' => 'artisan',
+                'description' => 'Publish config',
+                'command' => 'vendor:publish',
+                'params' => [
+                    '--provider' => 'InetStudio\Fns\Providers\ServiceProvider',
+                    '--tag' => 'config',
+                ],
+            ],
         ];
     }
 }

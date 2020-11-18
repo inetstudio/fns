@@ -16,7 +16,6 @@
   "autoload": {
     "psr-4": {
       "InetStudio\\Fns\\": "package/src",
-      "InetStudio\\Fns\\Accounts\\": "entities/accounts/src",
       "InetStudio\\Fns\\Receipts\\": "entities/receipts/src"
     }
   },
@@ -25,8 +24,6 @@
       "providers": [
         "InetStudio\\Fns\\Providers\\BindingsServiceProvider",
         "InetStudio\\Fns\\Providers\\ServiceProvider",
-        "InetStudio\\Fns\\Accounts\\Providers\\BindingsServiceProvider",
-        "InetStudio\\Fns\\Accounts\\Providers\\ServiceProvider",
         "InetStudio\\Fns\\Receipts\\Providers\\BindingsServiceProvider",
         "InetStudio\\Fns\\Receipts\\Providers\\ServiceProvider"
       ]
