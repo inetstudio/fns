@@ -8,10 +8,13 @@ use InetStudio\Fns\Contracts\Services\Back\BrandCashServiceContract;
 
 class BrandCashService implements BrandCashServiceContract
 {
+    protected array $brandCashParams;
+
     protected Client $client;
 
     public function __construct()
     {
+        $this->brandCashParams = config('services.brand_cash', []);
         $this->client = new Client();
     }
 
@@ -19,11 +22,7 @@ class BrandCashService implements BrandCashServiceContract
     {
         return true;
 
-        $settings = config('services.brand_cash');
-
-        $requestParams = [
-            'query' => array_merge($params, $settings),
-        ];
+        $requestParams = $this->prepareParams($params);
 
         try {
             $response = $this->client->get('https://api.brand.cash/v2/receipts/check', $requestParams);
@@ -37,11 +36,7 @@ class BrandCashService implements BrandCashServiceContract
 
     public function getReceipt(array $params): ?array
     {
-        $settings = config('services.brand_cash');
-
-        $requestParams = [
-            'query' => array_merge($params, $settings),
-        ];
+        $requestParams = $this->prepareParams($params);
 
         try {
             $response = $this->client->get('https://api.brand.cash/v2/receipts/get', $requestParams);
@@ -59,5 +54,12 @@ class BrandCashService implements BrandCashServiceContract
                 ],
             ]
             : null;
+    }
+
+    protected function prepareParams(array $params): array
+    {
+        return [
+            'query' => array_merge($params, $this->brandCashParams),
+        ];
     }
 }

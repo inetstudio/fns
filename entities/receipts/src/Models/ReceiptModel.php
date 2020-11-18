@@ -9,9 +9,6 @@ use InetStudio\AddressesPackage\Points\Models\Traits\HasPoints;
 use InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract;
 use InetStudio\AdminPanel\Base\Models\Traits\Scopes\BuildQueryScopeTrait;
 
-/**
- * Class ReceiptModel.
- */
 class ReceiptModel extends Model implements ReceiptModelContract
 {
     use HasPoints;

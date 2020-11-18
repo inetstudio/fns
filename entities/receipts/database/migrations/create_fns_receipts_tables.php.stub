@@ -3,14 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreateFnsReceiptsTables.
- */
 class CreateFnsReceiptsTables extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('fns_receipts', function (Blueprint $table) {
@@ -22,9 +16,6 @@ class CreateFnsReceiptsTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::drop('fns_receipts');

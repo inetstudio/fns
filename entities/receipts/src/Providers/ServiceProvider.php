@@ -5,23 +5,14 @@ namespace InetStudio\Fns\Receipts\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-/**
- * Class ServiceProvider.
- */
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Загрузка сервиса.
-     */
     public function boot(): void
     {
         $this->registerConsoleCommands();
         $this->registerPublishes();
     }
 
-    /**
-     * Регистрация команд.
-     */
     protected function registerConsoleCommands(): void
     {
         if (! $this->app->runningInConsole()) {
@@ -36,9 +27,6 @@ class ServiceProvider extends BaseServiceProvider
         );
     }
 
-    /**
-     * Регистрация ресурсов.
-     */
     protected function registerPublishes(): void
     {
         if (! $this->app->runningInConsole()) {

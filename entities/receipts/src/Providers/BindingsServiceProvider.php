@@ -5,25 +5,13 @@ namespace InetStudio\Fns\Receipts\Providers;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-/**
- * Class BindingsServiceProvider.
- */
 class BindingsServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
-    /**
-     * @var array
-     */
-    public $bindings = [
+    public array $bindings = [
         'InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract' => 'InetStudio\Fns\Receipts\Models\ReceiptModel',
         'InetStudio\Fns\Receipts\Contracts\Services\Back\ItemsServiceContract' => 'InetStudio\Fns\Receipts\Services\Back\ItemsService',
-        'InetStudio\Fns\Receipts\Contracts\Transformers\Back\Resource\ShowTransformerContract' => 'InetStudio\Fns\Receipts\Transformers\Back\Resource\ShowTransformer',
     ];
 
-    /**
-     * Получить сервисы от провайдера.
-     *
-     * @return array
-     */
     public function provides()
     {
         return array_keys($this->bindings);
