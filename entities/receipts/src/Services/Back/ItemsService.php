@@ -4,8 +4,8 @@ namespace InetStudio\Fns\Receipts\Services\Back;
 
 use Illuminate\Support\Arr;
 use InetStudio\AdminPanel\Base\Services\BaseService;
+use InetStudio\Fns\Contracts\Services\ReceiptsServiceContract;
 use InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract;
-use InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract;
 use InetStudio\Fns\Receipts\Contracts\Services\Back\ItemsServiceContract;
 
 class ItemsService extends BaseService implements ItemsServiceContract
