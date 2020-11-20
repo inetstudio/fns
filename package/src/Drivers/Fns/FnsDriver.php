@@ -184,7 +184,7 @@ class FnsDriver implements FnsDriverContract
     {
         return new Receipt(
             (int) $params['n'],
-            Carbon::createFromFormat('YmdTHi', $params['t']),
+            Carbon::parse($params['t']),
             (int) $params['s'],
             (int) $params['fn'],
             (int) $params['i'],
