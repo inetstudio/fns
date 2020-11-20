@@ -2,11 +2,11 @@
 
 namespace InetStudio\Fns\Drivers\Fns\Models;
 
-abstract class TicketResult
+abstract class ReceiptResult
 {
-    private int $code;
+    protected int $code;
 
-    private ?string $message;
+    protected ?string $message;
 
     protected function __construct(int $code, string $message = null)
     {

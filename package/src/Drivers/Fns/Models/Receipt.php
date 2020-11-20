@@ -4,7 +4,7 @@ namespace InetStudio\Fns\Drivers\Fns\Models;
 
 use Carbon\Carbon;
 
-final class Ticket
+final class Receipt
 {
     public int $type;
 

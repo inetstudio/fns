@@ -2,11 +2,12 @@
 
 return [
     'brand_cash' => [
-        'api_key' => env('BRAND_CASH_API_KEY'),
         'url' => env('BRAND_CASH_URL'),
+        'api_key' => env('BRAND_CASH_API_KEY'),
     ],
     'fns' => [
-        'token'  => env('FNS_TOKEN'),
         'url' => env('FNS_URL'),
+        'user'  => env('FNS_USER'),
+        'token'  => env('FNS_TOKEN'),
     ],
 ];

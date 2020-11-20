@@ -4,7 +4,7 @@ namespace InetStudio\Fns\Drivers\Fns\Requests;
 
 final class AuthRequest
 {
-    private string $token;
+    protected string $token;
 
     public final function __construct(string $token)
     {

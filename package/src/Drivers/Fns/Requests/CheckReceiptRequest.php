@@ -2,15 +2,15 @@
 
 namespace InetStudio\Fns\Drivers\Fns\Requests;
 
-final class GetTicketRequest extends TicketRequest
+final class CheckReceiptRequest extends ReceiptRequest
 {
     protected function getRequestElementName(): string
     {
-        return 'GetTicketRequest';
+        return 'CheckTicketRequest';
     }
 
     protected function getInfoElementName(): string
     {
-        return 'GetTicketInfo';
+        return 'CheckTicketInfo';
     }
 }

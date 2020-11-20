@@ -2,7 +2,7 @@
 
 namespace InetStudio\Fns\Drivers\Fns\Models;
 
-final class CheckTicketResult extends TicketResult
+final class CheckReceiptResult extends ReceiptResult
 {
     protected final function __construct(int $code, string $message)
     {
@@ -11,6 +11,6 @@ final class CheckTicketResult extends TicketResult
 
     public static function create(int $code, string $message): self
     {
-        return new CheckTicketResult($code, $message);
+        return new CheckReceiptResult($code, $message);
     }
 }

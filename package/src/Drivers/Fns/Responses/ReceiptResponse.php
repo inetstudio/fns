@@ -2,9 +2,9 @@
 
 namespace InetStudio\Fns\Drivers\Fns\Responses;
 
-abstract class TicketResponse
+abstract class ReceiptResponse
 {
-    private string $processingStatus;
+    protected string $processingStatus;
 
     protected function __construct(string $processingStatus)
     {

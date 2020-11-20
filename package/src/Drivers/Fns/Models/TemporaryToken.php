@@ -6,11 +6,11 @@ use Carbon\Carbon;
 
 final class TemporaryToken
 {
-    private string $token;
+    protected string $token;
 
-    private Carbon $expireTime;
+    protected Carbon $expireTime;
 
-    private final function __construct(string $token, Carbon $expireTime)
+    protected final function __construct(string $token, Carbon $expireTime)
     {
         $this->token = $token;
         $this->expireTime = $expireTime;

@@ -26,7 +26,7 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
             'InetStudio\Fns\Contracts\Drivers\BrandCashDriverContract',
             'InetStudio\Fns\Contracts\Drivers\FnsDriverContract',
             'InetStudio\Fns\Contracts\Managers\ReceiptsServiceManagerContract',
-            'InetStudio\Fns\Contracts\Services\Back\ReceiptsServiceContract'
+            'InetStudio\Fns\Contracts\Services\ReceiptsServiceContract'
         ];
     }
 }
