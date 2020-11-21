@@ -10,12 +10,12 @@ use InetStudio\Fns\Drivers\Fns\Models\Receipt;
 use InetStudio\Fns\Drivers\Fns\Requests\AuthRequest;
 use InetStudio\Fns\Drivers\Fns\Models\TemporaryToken;
 use InetStudio\Fns\Contracts\Drivers\FnsDriverContract;
-//use InetStudio\Fns\Drivers\Fns\Models\GetReceiptResult;
-//use InetStudio\Fns\Drivers\Fns\Models\CheckReceiptResult;
+use InetStudio\Fns\Drivers\Fns\Models\GetReceiptResult;
+use InetStudio\Fns\Drivers\Fns\Models\CheckReceiptResult;
 use InetStudio\Fns\Drivers\Fns\Requests\GetReceiptRequest;
 use InetStudio\Fns\Drivers\Fns\Requests\CheckReceiptRequest;
-//use InetStudio\Fns\Drivers\Fns\Responses\GetReceiptResponse;
-//use InetStudio\Fns\Drivers\Fns\Responses\CheckReceiptResponse;
+use InetStudio\Fns\Drivers\Fns\Responses\GetReceiptResponse;
+use InetStudio\Fns\Drivers\Fns\Responses\CheckReceiptResponse;
 
 class FnsDriver implements FnsDriverContract
 {
@@ -55,7 +55,7 @@ class FnsDriver implements FnsDriverContract
         return $this->temporaryToken;
     }
 
-    public function checkReceipt(array $params): bool
+    public function checkReceipt(array $params)
     {
         $receipt = $this->getReceiptObject($params);
         $messageId = $this->getCheckReceiptMessageId($receipt);
@@ -66,26 +66,31 @@ class FnsDriver implements FnsDriverContract
         $object->MessageId = $messageId;
 
         $attempts = 0;
-        $result = '';
+        $processingStatus = '';
 
-        while ($result !== 'COMPLETED' && $attempts < 10) {
+        while ($processingStatus !== 'COMPLETED' && $attempts < 10) {
             $response = $client->__soapCall('GetMessage', [$object]);
-            $result = $response->ProcessingStatus;
+            $processingStatus = $response->ProcessingStatus;
 
-            if ($result === 'COMPLETED') {
+            if ($processingStatus === 'COMPLETED') {
+                $checkReceiptResponse = new SimpleXMLElement($response->Message->any);
+                $result = $checkReceiptResponse->children('tns', true)->Result;
+
+                $checkResponse = CheckReceiptResponse::create($response->ProcessingStatus, CheckReceiptResult::create(intval($result->Code->__toString()), $result->Message->__toString()));
+
                 break;
-                //$checkReceiptResponse = new SimpleXMLElement($response->Message->any);
-                //$result = $checkReceiptResponse->children('tns', true)->Result;
-
-                //return CheckReceiptResponse::create($response->ProcessingStatus, CheckReceiptResult::create(intval($result->Code->__toString()), $result->Message->__toString()));
             }
 
             sleep(1);
+
             $attempts++;
         }
 
-        return ($result === 'COMPLETED');
-        //return CheckReceiptResponse::create($response->ProcessingStatus);
+        if ($processingStatus !== 'COMPLETED') {
+            $checkResponse = CheckReceiptResponse::create($response->ProcessingStatus);
+        }
+
+        return $checkResponse;
     }
 
     protected function getCheckReceiptMessageId(Receipt $receipt): string
@@ -98,7 +103,7 @@ class FnsDriver implements FnsDriverContract
         return $response->MessageId;
     }
 
-    public function getReceipt(array $params): ?array
+    public function getReceipt(array $params)
     {
         $receipt = $this->getReceiptObject($params);
         $messageId = $this->getGetReceiptMessageId($receipt);
@@ -109,40 +114,41 @@ class FnsDriver implements FnsDriverContract
         $object->MessageId = $messageId;
 
         $attempts = 0;
-        $result = '';
+        $processingStatus = '';
 
-        while ($result !== 'COMPLETED' && $attempts < 10) {
+        while ($processingStatus !== 'COMPLETED' && $attempts < 10) {
             $response = $client->__soapCall('GetMessage', [$object]);
 
-            $result = $response->ProcessingStatus;
+            $processingStatus = $response->ProcessingStatus;
 
-            if ($result === 'COMPLETED') {
+            if ($processingStatus === 'COMPLETED') {
                 $getReceiptResponse = new SimpleXMLElement($response->Message->any);
                 $result = $getReceiptResponse->children('tns', true)->Result;
                 $code = intval($result->Code->__toString());
 
                 if ($code === 200) {
-                    $data = json_decode($result->Ticket->__toString(), true);
-
-                    return [
-                        'document' => [
-                            'receipt' => $data['content'] ?? [],
-                        ],
-                    ];
+                    $receiptData = json_decode($result->Ticket->__toString());
+                    $message = null;
                 } else {
-                    //$message = $result->Message->__toString();
-                    return null;
+                    $receiptData = null;
+                    $message = $result->Message->__toString();
                 }
 
-                //return GetReceiptResponse::create($response->ProcessingStatus, GetReceiptResult::create($code, $message, $receipt));
+                $getResponse = GetReceiptResponse::create($response->ProcessingStatus, GetReceiptResult::create($code, $message, $receiptData));
+
+                break;
             }
 
             sleep(1);
+
             $attempts++;
         }
 
-        return null;
-        //return GetReceiptResponse::create($response->ProcessingStatus);
+        if ($processingStatus !== 'COMPLETED') {
+            $getResponse = GetReceiptResponse::create($response->ProcessingStatus);
+        }
+
+        return $getResponse;
     }
 
     protected function getGetReceiptMessageId(Receipt $receipt): string

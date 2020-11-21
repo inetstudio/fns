@@ -26,38 +26,69 @@ class ItemsService extends BaseService implements ItemsServiceContract
         return $this->saveModel($itemData, $id);
     }
 
-    public function getReceiptByQrCode(string $qrCode): ?ReceiptModelContract
+    public function getReceiptByQrCode(string $qrCode): array
     {
         $receipt = $this->model::where('qr_code', $qrCode)->first();
 
         if ($receipt) {
-            return $receipt;
+            return [
+                'code' => 200,
+                'message' => null,
+                'receipt' => $receipt,
+            ];
         }
-
-        $receipt = null;
 
         $params = $this->parseQrCode($qrCode);
 
         if (empty($params)) {
-            return $receipt;
+            return [
+                'code' => 406,
+                'message' => 'Переданы не полные данные',
+                'receipt' => null,
+            ];
         }
 
         $checkResult = $this->receiptsService->checkReceipt($params);
 
-        if ($checkResult) {
-            $receiptData = $this->receiptsService->getReceipt($params);
+        switch ($checkResult->getResult()->getCode()) {
+            case 200:
+                $getReceiptResult = $this->receiptsService->getReceipt($params);
 
-            if ($receiptData) {
-                $receipt = $this->saveModel(
-                    [
-                        'qr_code' => $qrCode,
-                        'receipt' => $receiptData,
-                    ]
-                );
-            }
+                $receiptModel = null;
+
+                if ($getReceiptResult->getResult()->getCode() === 200) {
+                    $receipt = $getReceiptResult->getResult()->getReceipt();
+                    $receiptData = ($receipt) ? (array) $receipt: [];
+
+                    if (isset($receiptData['content'])) {
+                        $receiptData['receipt'] = $receiptData['content'];
+                        unset($receiptData['content']);
+                    }
+
+                    $receiptModel = $this->saveModel(
+                        [
+                            'qr_code' => $qrCode,
+                            'receipt' => [
+                                'document' => $receiptData,
+                            ],
+                        ]
+                    );
+                }
+
+                return [
+                    'code' => $getReceiptResult->getResult()->getCode(),
+                    'message' => $getReceiptResult->getResult()->getMessage(),
+                    'receipt' => $receiptModel,
+                ];
+
+            default:
+
+                return [
+                    'code' => $checkResult->getResult()->getCode(),
+                    'message' => $checkResult->getResult()->getMessage(),
+                    'receipt' => null,
+                ];
         }
-
-        return $receipt;
     }
 
     protected function parseQrCode(string $qrCode): array

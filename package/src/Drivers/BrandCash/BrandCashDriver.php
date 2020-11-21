@@ -19,7 +19,7 @@ class BrandCashDriver implements BrandCashDriverContract
         $this->client = new Client();
     }
 
-    public function checkReceipt(array $params): bool
+    public function checkReceipt(array $params)
     {
         return true;
 
@@ -35,7 +35,7 @@ class BrandCashDriver implements BrandCashDriverContract
         }
     }
 
-    public function getReceipt(array $params): ?array
+    public function getReceipt(array $params)
     {
         $requestParams = $this->prepareParams($params);
 

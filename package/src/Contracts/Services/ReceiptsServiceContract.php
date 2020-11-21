@@ -4,7 +4,7 @@ namespace InetStudio\Fns\Contracts\Services;
 
 interface ReceiptsServiceContract
 {
-    public function checkReceipt(array $params): bool;
+    public function checkReceipt(array $params);
 
-    public function getReceipt(array $params): ?array;
+    public function getReceipt(array $params);
 }

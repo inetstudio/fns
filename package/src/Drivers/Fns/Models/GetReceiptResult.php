@@ -4,9 +4,9 @@ namespace InetStudio\Fns\Drivers\Fns\Models;
 
 final class GetReceiptResult extends ReceiptResult
 {
-    protected ?Receipt $receipt;
+    protected $receipt;
 
-    protected final function __construct(int $code, string $message = null, ?Receipt $receipt = null)
+    protected final function __construct(int $code, string $message = null, $receipt = null)
     {
         parent::__construct($code, $message);
 
@@ -18,7 +18,7 @@ final class GetReceiptResult extends ReceiptResult
         return new GetReceiptResult($code, $message, $receipt);
     }
 
-    public function getReceipt(): ?Receipt
+    public function getReceipt()
     {
         return $this->receipt;
     }
