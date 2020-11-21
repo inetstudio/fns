@@ -33,7 +33,7 @@ class FnsDriver implements FnsDriverContract
     {
         $settings = config('services.fns', []);
 
-        $this->server = $settings['url'] ?? '';
+        $this->server = trim($settings['url'] ?? '', '/');
         $this->user = $settings['user'] ?? '';
         $this->token = $settings['token'] ?? '';
     }
@@ -80,6 +80,7 @@ class FnsDriver implements FnsDriverContract
                 //return CheckReceiptResponse::create($response->ProcessingStatus, CheckReceiptResult::create(intval($result->Code->__toString()), $result->Message->__toString()));
             }
 
+            sleep(1);
             $attempts++;
         }
 
@@ -97,7 +98,7 @@ class FnsDriver implements FnsDriverContract
         return $response->MessageId;
     }
 
-    public function getReceipt(array $params): array
+    public function getReceipt(array $params): ?array
     {
         $receipt = $this->getReceiptObject($params);
         $messageId = $this->getGetReceiptMessageId($receipt);
@@ -119,23 +120,28 @@ class FnsDriver implements FnsDriverContract
                 $getReceiptResponse = new SimpleXMLElement($response->Message->any);
                 $result = $getReceiptResponse->children('tns', true)->Result;
                 $code = intval($result->Code->__toString());
-                $message = null;
-                $receipt = null;
 
-                if ($code == 200) {
-                    return json_decode($result->Receipt->__toString());
+                if ($code === 200) {
+                    $data = json_decode($result->Ticket->__toString(), true);
+
+                    return [
+                        'document' => [
+                            'receipt' => $data['content'] ?? [],
+                        ],
+                    ];
                 } else {
                     //$message = $result->Message->__toString();
-                    return [];
+                    return null;
                 }
 
                 //return GetReceiptResponse::create($response->ProcessingStatus, GetReceiptResult::create($code, $message, $receipt));
             }
 
+            sleep(1);
             $attempts++;
         }
 
-        return [];
+        return null;
         //return GetReceiptResponse::create($response->ProcessingStatus);
     }
 
@@ -185,7 +191,7 @@ class FnsDriver implements FnsDriverContract
         return new Receipt(
             (int) $params['n'],
             Carbon::parse($params['t']),
-            (int) $params['s'],
+            (int) str_replace('.', '', $params['s']),
             (int) $params['fn'],
             (int) $params['i'],
             (int) $params['fp']
