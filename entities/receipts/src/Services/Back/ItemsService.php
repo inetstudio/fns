@@ -58,19 +58,20 @@ class ItemsService extends BaseService implements ItemsServiceContract
 
                 if ($getReceiptResult->getResult()->getCode() === 200) {
                     $receipt = $getReceiptResult->getResult()->getReceipt();
-                    $receiptData = ($receipt) ? (array) $receipt: [];
+                    $receiptData = (array) $receipt;
 
-                    if (isset($receiptData['content'])) {
-                        $receiptData['receipt'] = $receiptData['content'];
-                        unset($receiptData['content']);
+                    $data = [];
+
+                    if (! isset($receiptData['content'])) {
+                        $data['content'] = $receiptData;
+                    } else {
+                        $data = $receiptData;
                     }
 
                     $receiptModel = $this->saveModel(
                         [
                             'qr_code' => $qrCode,
-                            'receipt' => [
-                                'document' => $receiptData,
-                            ],
+                            'data' => $data,
                         ]
                     );
                 }

@@ -35,7 +35,7 @@ class ReceiptModel extends Model implements ReceiptModelContract
      */
     protected $fillable = [
         'qr_code',
-        'receipt',
+        'data',
     ];
 
     /**
@@ -55,7 +55,7 @@ class ReceiptModel extends Model implements ReceiptModelContract
      * @var array
      */
     protected $casts = [
-        'receipt' => 'array',
+        'data' => 'array',
     ];
 
     /**
@@ -68,7 +68,7 @@ class ReceiptModel extends Model implements ReceiptModelContract
         self::$buildQueryScopeDefaults['columns'] = [
             'id',
             'qr_code',
-            'receipt',
+            'data',
         ];
     }
 
@@ -83,13 +83,13 @@ class ReceiptModel extends Model implements ReceiptModelContract
     }
 
     /**
-     * Сеттер атрибута receipt.
+     * Сеттер атрибута data.
      *
      * @param $value
      */
-    public function setReceiptAttribute($value)
+    public function setDataAttribute($value)
     {
-        $this->attributes['receipt'] = json_encode((array) $value);
+        $this->attributes['data'] = json_encode((array) $value);
     }
 
     /**

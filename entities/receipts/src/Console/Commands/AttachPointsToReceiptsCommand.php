@@ -21,11 +21,11 @@ class AttachPointsToReceiptsCommand extends Command
         $bar = $this->output->createProgressBar(count($receipts));
 
         foreach ($receipts as $receipt) {
-            if ($receipt->hasJSONData('receipt', 'address_process')) {
+            if ($receipt->hasJSONData('data', 'address_process')) {
                 continue;
             }
 
-            $receiptAddress = $receipt['receipt']['document']['receipt']['retailPlaceAddress'] ?? '';
+            $receiptAddress = $receipt['data']['content']['retailPlaceAddress'] ?? '';
 
             if (! $receiptAddress) {
                 continue;
@@ -54,7 +54,7 @@ class AttachPointsToReceiptsCommand extends Command
                 }
             }
 
-            $receipt->setJSONData('receipt', 'address_process', true);
+            $receipt->setJSONData('data', 'address_process', true);
             $receipt->save();
 
             $bar->advance();
