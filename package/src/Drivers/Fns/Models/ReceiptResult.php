@@ -8,7 +8,7 @@ abstract class ReceiptResult
 
     protected ?string $message;
 
-    protected function __construct(int $code, string $message = null)
+    protected function __construct(int $code, ?string $message = null)
     {
         $this->code = $code;
         $this->message = $message;
