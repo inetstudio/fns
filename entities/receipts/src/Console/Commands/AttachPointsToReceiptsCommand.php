@@ -13,7 +13,7 @@ class AttachPointsToReceiptsCommand extends Command
     public function handle()
     {
         $pointsService = resolve('InetStudio\AddressesPackage\Points\Contracts\Services\Back\ItemsServiceContract');
-        $receiptsService = resolve('InetStudio\Fns\Receipts\Contracts\Services\Back\ItemsServiceContract');
+        $receiptsService = resolve('InetStudio\Fns\Receipts\Contracts\Services\ItemsServiceContract');
         $ahunterService = resolve('InetStudio\AddressesPackage\Points\Contracts\Services\Back\AHunterServiceContract');
 
         $receipts = $receiptsService->getModel()->doesntHave('points')->get();
@@ -41,7 +41,7 @@ class AttachPointsToReceiptsCommand extends Command
                 }
             }
 
-            if ($hash) {
+            if (isset($hash)) {
                 $point = $pointsService->getModel()->where('hash', '=', $hash)->first();
 
                 if ($point) {

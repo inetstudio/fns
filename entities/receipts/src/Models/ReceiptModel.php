@@ -2,101 +2,57 @@
 
 namespace InetStudio\Fns\Receipts\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InetStudio\AdminPanel\Models\Traits\HasJSONColumns;
 use InetStudio\AddressesPackage\Points\Models\Traits\HasPoints;
 use InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract;
-use InetStudio\AdminPanel\Base\Models\Traits\Scopes\BuildQueryScopeTrait;
 
 class ReceiptModel extends Model implements ReceiptModelContract
 {
     use HasPoints;
     use SoftDeletes;
     use HasJSONColumns;
-    use BuildQueryScopeTrait;
 
-    /**
-     * Тип сущности.
-     */
     const ENTITY_TYPE = 'fns_receipt';
 
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
     protected $table = 'fns_receipts';
 
-    /**
-     * Атрибуты, для которых разрешено массовое назначение.
-     *
-     * @var array
-     */
     protected $fillable = [
         'qr_code',
         'data',
     ];
 
-    /**
-     * Атрибуты, которые должны быть преобразованы в даты.
-     *
-     * @var array
-     */
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    /**
-     * Атрибуты, которые должны быть преобразованы к базовым типам.
-     *
-     * @var array
-     */
     protected $casts = [
         'data' => 'array',
     ];
 
-    /**
-     * Загрузка модели.
-     */
     protected static function boot()
     {
         parent::boot();
 
-        self::$buildQueryScopeDefaults['columns'] = [
-            'id',
-            'qr_code',
-            'data',
-        ];
+        static::creating(function ($receipt) {
+            $receipt->{$receipt->getKeyName()} = (string) Str::uuid();
+        });
     }
 
-    /**
-     * Сеттер атрибута qr_code.
-     *
-     * @param $value
-     */
-    public function setQrCodeAttribute($value): void
+    public function getIncrementing()
     {
-        $this->attributes['qr_code'] = trim(strip_tags($value));
+        return false;
     }
 
-    /**
-     * Сеттер атрибута data.
-     *
-     * @param $value
-     */
-    public function setDataAttribute($value)
+    public function getKeyType()
     {
-        $this->attributes['data'] = json_encode((array) $value);
+        return 'string';
     }
 
-    /**
-     * Геттер атрибута type.
-     *
-     * @return string
-     */
     public function getTypeAttribute(): string
     {
         return self::ENTITY_TYPE;

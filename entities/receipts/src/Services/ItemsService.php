@@ -1,29 +1,40 @@
 <?php
 
-namespace InetStudio\Fns\Receipts\Services\Back;
+namespace InetStudio\Fns\Receipts\Services;
 
 use Illuminate\Support\Arr;
-use InetStudio\AdminPanel\Base\Services\BaseService;
+use InetStudio\Fns\Receipts\Contracts\DTO\ItemDataContract;
 use InetStudio\Fns\Contracts\Services\ReceiptsServiceContract;
 use InetStudio\Fns\Receipts\Contracts\Models\ReceiptModelContract;
-use InetStudio\Fns\Receipts\Contracts\Services\Back\ItemsServiceContract;
+use InetStudio\Fns\Receipts\Contracts\Services\ItemsServiceContract;
 
-class ItemsService extends BaseService implements ItemsServiceContract
+class ItemsService implements ItemsServiceContract
 {
+    protected ReceiptModelContract $model;
+
     protected ReceiptsServiceContract $receiptsService;
 
     public function __construct(ReceiptModelContract $model, ReceiptsServiceContract $receiptsService)
     {
-        parent::__construct($model);
-
+        $this->model = $model;
         $this->receiptsService = $receiptsService;
     }
 
-    public function save(array $data, int $id): ReceiptModelContract
+    public function getModel()
     {
-        $itemData = Arr::only($data, $this->model->getFillable());
+        return $this->model;
+    }
 
-        return $this->saveModel($itemData, $id);
+    public function save(ItemDataContract $data): ReceiptModelContract
+    {
+        $item = $this->model::find($data->id) ?? new $this->model;
+
+        $item->qr_code = $data->qr_code;
+        $item->data = $data->data;
+
+        $item->save();
+
+        return $item;
     }
 
     public function getReceiptByQrCode(string $qrCode): array
@@ -68,12 +79,15 @@ class ItemsService extends BaseService implements ItemsServiceContract
                         $data = $receiptData;
                     }
 
-                    $receiptModel = $this->saveModel(
+                    $data = resolve(
+                        'InetStudio\Fns\Receipts\Contracts\DTO\ItemDataContract',
                         [
                             'qr_code' => $qrCode,
                             'data' => $data,
                         ]
                     );
+
+                    $receiptModel = $this->save($data);
                 }
 
                 return [
