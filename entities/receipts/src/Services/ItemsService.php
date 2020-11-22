@@ -82,8 +82,10 @@ class ItemsService implements ItemsServiceContract
                     $data = resolve(
                         'InetStudio\Fns\Receipts\Contracts\DTO\ItemDataContract',
                         [
-                            'qr_code' => $qrCode,
-                            'data' => $data,
+                            'parameters' => [
+                                'qr_code' => $qrCode,
+                                'data' => $data,
+                            ],
                         ]
                     );
 
