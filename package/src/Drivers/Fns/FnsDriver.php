@@ -48,7 +48,8 @@ class FnsDriver implements FnsDriverContract
             $response = $client->__soapCall('GetMessage', [$message]);
 
             $authResponse = new SimpleXMLElement($response->Message->any);
-            $result = $authResponse->children('tns', true)->Result;
+            $result = $authResponse->children('ns2', true)->Result;
+
             $this->temporaryToken = TemporaryToken::create($result->Token->__toString(), Carbon::createFromTimeString($result->ExpireTime->__toString()));
         }
 
@@ -74,9 +75,8 @@ class FnsDriver implements FnsDriverContract
 
             if ($processingStatus === 'COMPLETED') {
                 $checkReceiptResponse = new SimpleXMLElement($response->Message->any);
-                $result = $checkReceiptResponse->children('tns', true)->Result;
 
-                $checkResponse = CheckReceiptResponse::create($response->ProcessingStatus, CheckReceiptResult::create(intval($result->Code->__toString()), $result->Message->__toString()));
+                $checkResponse = CheckReceiptResponse::create($response->ProcessingStatus, CheckReceiptResult::create(intval($checkReceiptResponse->Result->Code->__toString()), $checkReceiptResponse->Result->Message->__toString()));
 
                 break;
             }
@@ -88,6 +88,10 @@ class FnsDriver implements FnsDriverContract
 
         if ($processingStatus !== 'COMPLETED') {
             $checkResponse = CheckReceiptResponse::create($response->ProcessingStatus);
+        }
+
+        if (! $checkResponse) {
+            logger(var_dump($response, true));
         }
 
         return $checkResponse;
@@ -123,15 +127,15 @@ class FnsDriver implements FnsDriverContract
 
             if ($processingStatus === 'COMPLETED') {
                 $getReceiptResponse = new SimpleXMLElement($response->Message->any);
-                $result = $getReceiptResponse->children('tns', true)->Result;
-                $code = intval($result->Code->__toString());
+                //$result = $getReceiptResponse->children('tns', true)->Result;
+                $code = intval($getReceiptResponse->Result->Code->__toString());
 
                 if ($code === 200) {
-                    $receiptData = json_decode($result->Ticket->__toString());
+                    $receiptData = json_decode($getReceiptResponse->Result->Ticket->__toString());
                     $message = null;
                 } else {
                     $receiptData = null;
-                    $message = $result->Message->__toString();
+                    $message = $getReceiptResponse->Result->Message->__toString();
                 }
 
                 $getResponse = GetReceiptResponse::create($response->ProcessingStatus, GetReceiptResult::create($code, $message, $receiptData));
