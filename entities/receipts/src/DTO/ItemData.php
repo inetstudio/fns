@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace InetStudio\Fns\Receipts\DTO;
 
-use Spatie\DataTransferObject\FlexibleDataTransferObject;
+use Spatie\DataTransferObject\DataTransferObject;
 use InetStudio\Fns\Receipts\Contracts\DTO\ItemDataContract;
 
-class ItemData extends FlexibleDataTransferObject implements ItemDataContract
+class ItemData extends DataTransferObject implements ItemDataContract
 {
     public ?string $id;
 
