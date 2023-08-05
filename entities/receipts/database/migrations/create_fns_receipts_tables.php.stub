@@ -9,6 +9,7 @@ class CreateFnsReceiptsTables extends Migration
     {
         Schema::create('fns_receipts', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('hash');
             $table->string('qr_code', 500)->nullable();
             $table->json('data')->nullable();
             $table->timestamps();

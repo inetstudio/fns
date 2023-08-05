@@ -11,6 +11,8 @@ class ItemData extends DataTransferObject implements ItemDataContract
 {
     public ?string $id;
 
+    public string $hash;
+
     public string $qr_code;
 
     public array $data = [];

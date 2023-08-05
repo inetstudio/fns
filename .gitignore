@@ -1,0 +1,16 @@
+/node_modules
+.phpunit.result.cache
+Homestead.json
+npm-debug.log
+yarn-error.log
+.vagrant
+Homestead.yaml
+Vagrantfile
+.idea
+.vscode
+.env
+.editorconfig
+aliases
+after.sh
+/mysql_backup
+/postgres_backup

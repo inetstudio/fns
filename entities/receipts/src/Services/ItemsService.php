@@ -29,6 +29,7 @@ class ItemsService implements ItemsServiceContract
     {
         $item = $this->model::find($data->id) ?? new $this->model;
 
+        $item->hash = $data->hash;
         $item->qr_code = $data->qr_code;
         $item->data = $data->data;
 
