@@ -84,6 +84,7 @@ class ItemsService implements ItemsServiceContract
                         'InetStudio\Fns\Receipts\Contracts\DTO\ItemDataContract',
                         [
                             'args' => [
+                                'hash' => md5(json_encode($data)),
                                 'qr_code' => $qrCode,
                                 'data' => $data,
                             ],
