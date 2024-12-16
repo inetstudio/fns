@@ -41,14 +41,24 @@ class FnsDriver implements FnsDriverContract
     public function getTemporaryToken(): TemporaryToken
     {
         if ($this->temporaryToken === null) {
-            $client = new SoapClient($this->server.'/open-api/AuthService/0.1?wsdl');
+            $options = [
+                'stream_context' => stream_context_create([
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true,
+                    ],
+                ]),
+            ];
+
+            $client = new SoapClient($this->server.'/open-api/AuthService/0.1?wsdl', $options);
 
             $message = $this->getRequestMessage(new AuthRequest($this->token));
 
             $response = $client->__soapCall('GetMessage', [$message]);
 
             $authResponse = new SimpleXMLElement($response->Message->any);
-            $result = $authResponse->children('ns2', true)->Result;
+            $result = $authResponse->Result;
 
             $this->temporaryToken = TemporaryToken::create($result->Token->__toString(), Carbon::createFromTimeString($result->ExpireTime->__toString()));
         }
@@ -177,7 +187,12 @@ class FnsDriver implements FnsDriverContract
                 'stream_context' => stream_context_create([
                     'http' => [
                         'header' => 'FNS-OpenApi-Token: '.$this->temporaryToken->getToken().PHP_EOL.'FNS-OpenApi-UserToken: '.base64_encode($this->user)
-                    ]
+                    ],
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    ],
                 ])
             ]);
         }
